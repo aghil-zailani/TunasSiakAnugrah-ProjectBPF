@@ -3,8 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\AparModel;
+use App\Models\stok;
+use App\Models\keluar;
+use App\Http\Requests\StoreAparRequest;
+use App\Http\Requests\UpdateAparRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\AparExport;
+use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class AparController extends Controller
 {
@@ -13,17 +20,52 @@ class AparController extends Controller
      */
     public function index()
     {
-        return view('index', [
-            "judul" => "Dashboard"
-        ]);
+        $data = array(
+            'judul' => 'Data Barang',
+            'barang' => AparModel::all(),
+        );
+
+        $chart = AparModel::all();
+        $rs = keluar::where('type','Racking System')->count('type');
+        $fp = keluar::where('type','Fire Protection')->count('type');
+        
+        return view('home', $data, compact('chart', 'rs', 'fp'));
     }
+
+    public function tampil()
+    {
+        $data = array(
+            'judul' => 'Data Barang',
+            'barang' => AparModel::all(),
+        );
+        return view('dataBarang', $data);
+    }
+
+
+    public function barangKeluar()
+    {
+        $data = array(
+            'judul' => 'Stock Barang',
+            'barang' => keluar::all(),
+        );
+        return view('barangKeluar', $data);
+    }
+
+    public function exportExcel()
+	{
+		return Excel::download(new AparExport, 'data_barang.xlsx');
+	}
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('input');
+        $data = array(
+            'judul' => 'Stock Barang',
+            'barang' => AparModel::all(),
+        );
+        return view('input', $data);
     }
 
     /**
@@ -31,22 +73,24 @@ class AparController extends Controller
      */
     public function store(Request $request)
     {
-        $foto = $request->file('foto');
-        $foto->storeAs('public/apar'. $foto->hashName());
-        $data = AparModel::create([
-            'namaBarang'=> $request->namaBarang,
-            'stokBarang'=> $request->stokBarang,
-            'type'=> $request->type,
-            'deskripsi'=> $request->deskripsi,
-            'berat'=> $request->berat,
-            'harga'=> $request->harga,
-            'foto'=> $foto->hashName()
-        ]);
-        if($data){
-            return redirect('input');
-        }else{
-            echo "GAGAL";
+        $barang = AparModel::where('namaBarang', $request->namaBarang)->first();
+        
+        if($barang){
+            return redirect('input')->with('error', 'Barang Berhasil Ditambahkan!');
         }
+
+        $data = AparModel::create([
+            'namaBarang' => $request->namaBarang,
+            'stokBarang' => $request->stokBarang,
+            'type' => $request->type,
+            'deskripsi' => $request->deskripsi,
+            'berat' => $request->berat,
+            'harga' => $request->harga,
+        ]);
+
+        if ($data) {
+            return redirect('input')->with('message', 'Barang Berhasil Ditambahkan!');
+        } 
     }
 
     /**

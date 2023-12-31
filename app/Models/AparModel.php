@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class AparModel extends Model
 {
     use HasFactory;
-    protected $fillable = ['namaBarang', 'stokBarang', 'type', 'deskripsi', 'berat', 'harga', 'foto'];
+    protected $fillable = ['namaBarang', 'stokBarang', 'type', 'deskripsi', 'berat', 'harga'];
 }

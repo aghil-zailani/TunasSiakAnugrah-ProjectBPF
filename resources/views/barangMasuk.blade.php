@@ -1,4 +1,4 @@
-@extends('layouts/main')
+@extends('layouts.main')
 
 @section('container')
     <!DOCTYPE html>
@@ -14,12 +14,12 @@
                 </header>
 
                 <div class="page-heading">
-                    <h3>Input Stok Barang</h3>
+                    <h3>Barang Masuk</h3>
                 </div>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Input Data</li>
+                        <li class="breadcrumb-item"><a href="home">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Barang Masuk</li>
                     </ol>
                 </nav>
                 <div class="page-content">
@@ -27,100 +27,194 @@
                         <div class="col-12">
                             <div class="card shadow h-md-50">
                                 <div class="card-header">
-                                    <h4>Masukkan Data</h4>
+                                    <h4>Data Stok Barang</h4>
                                 </div>
                                 <div class="card-body">
-                                    <form action="{{ route('input.store') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="row">
-                                            <div class="col-md-2 ">
-                                                <label class="form-label">Nama Barang</label>
-                                            </div>
-                                            <div class="col-md-10 form-group">
-                                                <select name="namaBarang" id="" class="form-control">
-                                                    <option value="" selected disabled>Pilih Barang</option>
-                                                    <option value="APAR">APAR/APAB</option>
-                                                    <option value="Fire Alarm System">Fire Alarm System</option>
-                                                    <option value="Fire Hydrant System">Fire Hydrant System</option>                                                    
-                                                    <option value="Fire Hose">Fire Hose</option>
-                                                    <option value="Fire Hose Coupling">Fire Hose Coupling</option>
-                                                    <option value="Hose Reel">Hose Reel</option>
-                                                    <option value="Foam Tank & Hose Reel">Foam Tank & Hose Reel</option>
-                                                    <option value="Nozzle">Nozzle</option>
-                                                    <option value="In-Line Foam Eductor">In-Line Foam Eductor</option>
-                                                    <option value="Fire Monitor">Fire Monitor</option>
-                                                    <option value="Master Stream Nozzle">Master Stream Nozzle</option>
-                                                    <option value="Water Power Oscilating Monitor">Water Power Oscilating Monitor</option>  
-                                                    <option value="Fire Pump">Fire Pump</option>
-                                                    <option value="CAFS">CAFS (Compress Air Foam System)</option>
-                                                    <option value="Foam Trailer">Foam Trailer</option>
-                                                    <option value="Pompa Apung">Pompa Apung</option>
-                                                    <option value="Self Brathing Apparatus SCBA">Self Brathing Apparatus SCBA</option>
-                                                    <option value="Compressor AirComp SCBA">Compressor AirComp SCBA</option>
-                                                    <option value="Foam Concentrate AFFF">Foam Concentrate AFFF</option>
-                                                    <option value="Foam Troly">Foam Troly</option>
-                                                    <option value="Racking Support Gudang">Racking Support Gudang</option>
-                                                    <option value="Racking Warehouse">Racking Warehouse</option>
-                                                    <option value="Medium Duty Shelving Racking & Light Duty">Medium Duty Shelving Racking & Light Duty</option>
-                                                    <option value="Mezzanine/Multitier Racking + Mezzanine Floor">Mezzanine/Multitier Racking + Mezzanine Floor</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-2 ">
-                                                <label class="form-label">Stok Barang</label>
-                                            </div>
-                                            <div class="col-md-10 form-group">
-                                                <input type="number" class="form-control " name="stokBarang" placeholder="Tambah Stok Barang" />
-                                            </div>
-
-                                            <div class="col-md-2 ">
-                                                <label class="form-label">Type</label>
-                                            </div>
-                                            <div class="col-md-10 form-group">
-                                                <input type="text" name="type" class="form-control" value="Fire Protection" id="" disabled>
-                                            </div>
-
-                                            <div class="col-md-2 ">
-                                                <label class="form-label">Deskripsi</label>
-                                            </div>
-                                            <div class="col-md-10 form-group">
-                                                <input type="text" class="form-control" value="ini apar" name="deskripsi" disabled />
-                                            </div>
-
-                                            <div class="col-md-2 ">
-                                                <label class="form-label">Berat</label>
-                                            </div>
-                                            <div class="col-md-10 form-group">
-                                                <input type="text" class="form-control" name="berat" value="2KG" disabled />
-                                            </div>
-
-                                            <div class="col-md-2 ">
-                                                <label class="form-label">Harga</label>
-                                            </div>
-                                            <div class="col-md-10 form-group">
-                                                <input type="text" class="form-control " name="harga" value="Rp.50.000" disabled/>
-                                            </div>
-
-                                            <div class="col-md-2 ">
-                                                <label class="form-label">Foto</label>
-                                            </div>
-                                            <div class="col-md-10 form-group">
-                                                <img src="logo/tsa1.png" class="mb-5 mb-lg-2" alt="Logo" style="width: 190px; height: auto" />
-                                            </div>
-                                            <div class="col-lg-12 col-sm-12 mb-4">
-                                                <input type="submit" class="btn btn-primary btn-rounded px-3 py-2"
-                                                    value="Kirim" />
-                                            </div>
-                                    </form>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr align="center">
+                                                    <th>No</th>
+                                                    <th>Nama Barang</th>
+                                                    <th>Type</th>
+                                                    <th>Stok Barang</th>
+                                                    <th>Tambah Stok</th>
+                                                    <th>Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($barang as $a)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $a->namaBarang }}</td>
+                                                        <td>{{ $a->type }}</td>
+                                                        <td>{{ $a->stokBarang }}</td>
+                                                        <td align="center">
+                                                            <a href="#myModalLabel4{{ $a->id }}" type="button"
+                                                                class="btn btn-primary block" data-bs-toggle="modal">
+                                                                <i class="bi bi-file-earmark-spreadsheet-fill"> Tambah
+                                                                    Stok</i>
+                                                            </a>
+                                                        </td>
+                                                        <td align="center">
+                                                            <a href="#backdrop{{ $a->id }}" type="button"
+                                                                class="btn btn-info block" data-bs-toggle="modal">
+                                                                <i class="bi bi-eye-fill"></i> Detail
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                @if (session('message'))
+                    <script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: "Stok Barang Berhasil Ditambahkan!",
+                            timer: 2500
+                        });
+                    </script>
+                @endif
+                @if (session('stok'))
+                    <script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: "Mohon Isi Jumlah Stok!",
+                            timer: 2500
+                        });
+                    </script>
+                @endif
+                @if (session('tanggal'))
+                    <script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: "Mohon Isi Tanggal!",
+                            timer: 2500
+                        });
+                    </script>
+                @endif
+                @if (session('kosong'))
+                    <script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: "Mohon Isi Jumlah Stok dan Tanggal!",
+                            timer: 2500
+                        });
+                    </script>
+                @endif
             </div>
         </div>
         </div>
     </body>
 
     </html>
+
+    @foreach ($barang as $b)
+        <div class="modal fade text-left" id="myModalLabel4{{ $b->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel4" data-bs-backdrop="false" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel4">
+                            Tambah Stok Barang</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x">X</i>
+                        </button>
+                    </div>
+                    <form action="/stokBarang/store/{{ $b->id }}" method="POST">
+                        @csrf
+                        <div class="modal-body" align="left">
+                            <Label>Nama Barang</Label>
+                            <input type="text" value="{{ $b->namaBarang }}" class="form-control mb-2" name="namaBarang"
+                                readonly>
+                            <Label>Stok Barang</Label>
+                            <input type="text" value="{{ $b->stokBarang }}" class="form-control mb-2" name="stokBarang"
+                                readonly>
+                            <Label>Tambah Stok Barang</Label>
+                            <input type="text" class="form-control mb-2" name="jumlahStok">
+                            <Label>Tanggal</Label>
+                            <input type="date" class="form-control mb-2" name="tanggal">
+                            <Label>Type</Label>
+                            <input type="text" value="{{ $b->type }}" class="form-control mb-2" name="type"
+                                readonly>
+                            <Label>Deskripsi</Label>
+                            <input type="text" value="{{ $b->deskripsi }}" class="form-control mb-2" name="deskripsi"
+                                readonly>
+                            <Label>Berat</Label>
+                            <input type="text" value="{{ $b->berat }} Kg" class="form-control mb-2" name="berat"
+                                readonly>
+                            <Label>Harga</Label>
+                            <input type="text" value="Rp.{{ $b->harga }}" class="form-control mb-2" name="harga"
+                                readonly>
+                            <input type="text" value="In" class="form-control mb-2" name="status" hidden readonly>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Submit</span>
+                            </button>
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    @foreach ($barang as $c)
+        {{-- MODALLLLLLLLL --}}
+        <div class="modal fade text-left" id="backdrop{{ $c->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel4" data-bs-backdrop="false" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel4">Detail Barang
+                        </h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x">X</i>
+                        </button>
+                    </div>
+                    <div class="modal-body" align="left">
+                        <Label>Nama Barang</Label>
+                        <input type="text" value="{{ $c->namaBarang }}" class="form-control mb-2" name="Barang"
+                            disabled>
+                        <Label>Stok Barang</Label>
+                        <input type="text" value="{{ $c->stokBarang }}" class="form-control mb-2" name="stokBarang"
+                            disabled>
+                        <Label>Type</Label>
+                        <input type="text" value="{{ $c->type }}" class="form-control mb-2" name="type"
+                            disabled>
+                        <Label>Deskripsi</Label>
+                        <input type="text" value="{{ $c->deskripsi }}" class="form-control mb-2" name="deskripsi"
+                            disabled>
+                        <Label>Berat</Label>
+                        <input type="text" value="{{ $c->berat }}" class="form-control mb-2" name="berat"
+                            disabled>
+                        <Label>Harga</Label>
+                        <input type="text" value="{{ $c->harga }}" class="form-control mb-2" name="harga"
+                            disabled>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection

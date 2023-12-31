@@ -1,8 +1,15 @@
 <?php
 
 use App\Http\Controllers\AparController;
+use App\Http\Controllers\BarangMasukController;
+use App\Http\Controllers\BarangKeluarController;
+use App\Http\Controllers\SummaryController;
+use App\Http\Controllers\HistoryBarangMasuk;
+use App\Http\Controllers\HistoryBarangKeluar;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Models\AparModel;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,53 +22,30 @@ use App\Models\AparModel;
 |
 */
 
-Route::get('/', [AparController::class, 'index']);
+Route::get('/login', [LoginController::class, 'index'])->name('index');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/Input', function () {
-    return view('input', [
-        "judul" => "Input"
-    ]);
-});
+Route::get('/home', [AparController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/dataBarang', [AparController::class, 'tampil'])->name('dataBarang')->middleware('auth');
+Route::get('/dataBarang/exportExcel', [AparController::class, 'exportExcel'])->name('exportExcel');
 
-Route::get('/DataBarang', function () {
-    return view('dataBarang', [
-        "judul" => "Data Barang"
-    ]);
-});
+Route::get('/input', [AparController::class, 'create'])->name('create')->middleware('auth');
+Route::post('/input/store', [AparController::class, 'store'])->name('store')->middleware('auth');
 
-Route::get('/BarangMasuk', function () {
-    return view('barangMasuk', [
-        "judul" => "Stok Barang"
-    ]);
-});
+Route::get('/stokBarang', [BarangMasukController::class, 'index'])->name('index')->middleware('auth');
+Route::post('/stokBarang/store/{id}', [BarangMasukController::class, 'store'])->name('store')->middleware('auth');
+Route::get('/stokBarang/exportExcel', [BarangMasukController::class, 'exportExcel'])->name('exportExcel');
 
-Route::get('/BarangKeluar', function () {
-    return view('barangKeluar', [
-        "judul" => "Barang Keluar"
-    ]);
-});
+Route::get('/barangKeluar', [BarangKeluarController::class, 'index'])->name('index')->middleware('auth');
+Route::post('/barangKeluar/store/{id}', [BarangKeluarController::class, 'store'])->name('store')->middleware('auth');
+Route::get('/barangKeluar/exportExcel', [BarangKeluarController::class, 'exportExcel'])->name('exportExcel');
 
-Route::get('/Detail', function () {
-    return view('detail', [
-        "judul" => "Detail Barang"
-    ]);
-});
+Route::get('/historyBarangMasuk', [HistoryBarangMasuk::class, 'index'])->name('index')->middleware('auth');
+Route::get('/historyBarangKeluar', [HistoryBarangKeluar::class, 'index'])->name('index')->middleware('auth');
 
-Route::get('/MailBox', function () {
-    return view('input', [
-        "judul" => "Kotak Pesan"
-    ]);
-});
+Route::get('/summary', [SummaryController::class, 'index'])->name('index')->middleware('auth');
+Route::get('/summary/exportExcel', [SummaryController::class, 'exportExcel'])->name('exportExcel');
+Route::get('/summary/exportPDF', [SummaryController::class, 'exportPDF'])->name('exportPDF');
 
-Route::get('/Login', function () {
-    return view('login/login', [
-        "judul" => "Login"
-    ]);
-});
-
-Route::get('/Logout', function () {
-    return view('logout');
-});
-
-
-Route::resource('input', AparController::class);
+Route::resource('apar', AparController::class);

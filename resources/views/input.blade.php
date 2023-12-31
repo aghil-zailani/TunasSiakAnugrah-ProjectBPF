@@ -18,7 +18,7 @@
                 </div>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="home">Dashboard</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Input Data</li>
                     </ol>
                 </nav>
@@ -28,9 +28,9 @@
                             <div class="card shadow h-md-50">
                                 <div class="card-header">
                                     <h4>Masukkan Data</h4>
-                                </div>                                
+                                </div>
                                 <div class="card-body">
-                                    <form action="{{ route('input.store') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="/input/store" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-2 ">
@@ -73,7 +73,7 @@
                                             </div>
                                             <div class="col-md-10 form-group">
                                                 <input type="number" class="form-control " name="berat"
-                                                    placeholder="Berat Barang" />
+                                                    placeholder="Berat Barang (KG)" />
                                             </div>
 
                                             <div class="col-md-2 ">
@@ -84,13 +84,6 @@
                                                     placeholder="Harga Barang" />
                                             </div>
 
-                                            <div class="col-md-2 ">
-                                                <label class="form-label">Foto</label>
-                                            </div>
-                                            <div class="col-md-10 form-group">
-                                                <input type="file" class="form-control " name="foto"
-                                                    placeholder="Foto Barang" />
-                                            </div>
                                             <div class="col-lg-12 col-sm-12 mb-4">
                                                 <input type="submit" class="btn btn-primary btn-rounded px-3 py-2"
                                                     value="Kirim" />
@@ -104,6 +97,26 @@
             </div>
         </div>
         </div>
+        @if (session('message'))
+            <script>
+                Swal.fire({
+                    icon: "success",
+                    title: "Success!",
+                    text: "Barang Berhasil Ditambahkan!",
+                    timer: 2500
+                });
+            </script>
+        @endif
+        @if (session('error'))
+            <script>
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: "Barang Sudah Terdaftar Pada Inventory!",
+                    timer: 2500
+                });
+            </script>
+        @endif
     </body>
 
     </html>

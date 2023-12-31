@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('apar_models', function (Blueprint $table) {
+        Schema::create('summaries', function (Blueprint $table) {
             $table->id();
             $table->string('namaBarang');
             $table->string('stokBarang');
@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('deskripsi');
             $table->string('berat');
             $table->string('harga');
+            $table->string('jumlahStok');
+            $table->string('status');
+            $table->date('tanggal');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('apar_models');
+        Schema::dropIfExists('summaries');
     }
 };
