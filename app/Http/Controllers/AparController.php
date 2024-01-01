@@ -120,8 +120,14 @@ class AparController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AparModel $aparModel)
+    public function destroy(AparModel $aparModel, $id)
     {
-        //
+        $data = AparModel::findOrFail($id);
+        $data->delete();
+        if($data){
+            return redirect('dataBarang')->with('message', 'rawr');
+        }else{
+            return redirect('dataBarang')->with('error', 'rawr');
+        }
     }
 }

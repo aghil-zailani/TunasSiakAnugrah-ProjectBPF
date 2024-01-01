@@ -106,7 +106,7 @@
                             </ul>
                         </li>
                         <br>
-                        <form action="{{ route('logout') }}" method="POST" class="mb-3 px-5 fixed-bottom float-start"
+                        <form onsubmit="return confirm('Apakah Anda Yakin Ingin Keluar?')" action="{{ route('logout') }}" method="POST" class="mb-3 px-5 fixed-bottom float-start"
                             style="margin-left: 10px">
                             @csrf
                             <button type="submit" class="btn icon btn-danger px-5" >

@@ -29,6 +29,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/home', [AparController::class, 'index'])->name('home')->middleware('auth');
 Route::get('/dataBarang', [AparController::class, 'tampil'])->name('dataBarang')->middleware('auth');
 Route::get('/dataBarang/exportExcel', [AparController::class, 'exportExcel'])->name('exportExcel');
+Route::delete('/dataBarang/hapus/{id}', [AparController::class, 'destroy'])->name('destroy')->middleware('auth');
+
 
 Route::get('/input', [AparController::class, 'create'])->name('create')->middleware('auth');
 Route::post('/input/store', [AparController::class, 'store'])->name('store')->middleware('auth');
