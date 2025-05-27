@@ -24,7 +24,7 @@ class AparController extends Controller
             'judul' => 'Data Barang',
             'barang' => AparModel::all(),
         );
-
+        
         $chart = AparModel::all();
         $rs = keluar::where('type','Racking System')->count('type');
         $fp = keluar::where('type','Fire Protection')->count('type');
